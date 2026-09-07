@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LIFE IN ARIZONA — Verificación</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;color:#fff;background:#07090d}
+body{overflow-x:hidden}
+
+/* FONDO FOTOGRÁFICO */
+.bg{
+ position:fixed;inset:0;z-index:-3;
+ background-image:url("life_arizona_background.png");
+ background-position:center top;background-size:cover;background-repeat:no-repeat;
+ transform:scale(1.02);
+}
+.bg:after{
+ content:"";position:absolute;inset:0;
+ background:
+  linear-gradient(180deg,rgba(3,5,9,.18) 0%,rgba(3,5,9,.04) 32%,rgba(3,5,9,.48) 100%),
+  linear-gradient(90deg,rgba(0,0,0,.28),transparent 24%,transparent 76%,rgba(0,0,0,.25));
+}
+.glow{
+ position:fixed;inset:0;z-index:-2;pointer-events:none;
+ background:radial-gradient(ellipse at 50% 32%,transparent 20%,rgba(0,0,0,.48) 100%),linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.25));
+}
+
+.page{width:min(1120px,94vw);margin:auto;padding:22px 0 35px}
+
+.header{
+ display:flex;align-items:center;justify-content:space-between;
+ min-height:48px;margin-bottom:6px;
+ text-transform:uppercase;letter-spacing:2px;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px;text-shadow:0 2px 7px #000}
+.cactus{font-size:28px;line-height:1}
+.brand small{display:block;font-size:8px;letter-spacing:4px;color:#d4d4d4;margin-top:3px}
+.nav{font-size:10px;font-weight:700;letter-spacing:3px;text-shadow:0 2px 8px #000}
+.nav span{margin-left:22px}
+
+.hero{text-align:center;margin:2px 0 14px}
+.hero-logo{
+ font-size:clamp(48px,7vw,78px);font-weight:1000;line-height:.75;
+ letter-spacing:-5px;text-shadow:0 4px 0 #111,0 7px 20px rgba(0,0,0,.8);
+ text-transform:uppercase;font-style:italic;
+}
+.hero-logo .red{display:block;color:#ef183f;font-size:.56em;letter-spacing:-2px;margin-top:7px}
+.hero h1{
+ margin:13px 0 3px;font-size:clamp(19px,2.4vw,29px);
+ letter-spacing:5px;text-transform:uppercase;text-shadow:0 2px 10px #000;
+}
+.hero p{margin:0;font-size:9px;letter-spacing:3px;color:#e2e2e2;text-transform:uppercase}
+
+.shell{
+ background:rgba(3,8,14,.72);
+ border:1px solid rgba(255,255,255,.14);
+ border-radius:12px;
+ box-shadow:0 18px 65px rgba(0,0,0,.62),inset 0 0 45px rgba(255,255,255,.018);
+ backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+ overflow:hidden;
+}
+.topline{height:2px;background:linear-gradient(90deg,transparent,#f01442 20%,#ff5b42 50%,#f01442 80%,transparent)}
+.content{padding:12px}
+
+.notice{
+ display:flex;align-items:center;gap:12px;
+ padding:10px 13px;margin-bottom:9px;
+ border:1px solid rgba(255,22,66,.42);
+ border-radius:8px;background:rgba(10,16,23,.84);
+}
+.mic{
+ width:38px;height:38px;min-width:38px;border-radius:50%;
+ display:grid;place-items:center;background:#0e151e;
+ border:1px solid #ff1647;box-shadow:0 0 17px rgba(255,22,71,.2);
+ font-size:18px;
+}
+.notice strong{font-size:10px;color:#ff3155;letter-spacing:1px}
+.notice p{margin:3px 0 0;color:#aeb7c0;font-size:9px;line-height:1.35}
+
+.identity{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px}
+.field{
+ padding:9px 11px;border:1px solid rgba(255,255,255,.08);
+ border-radius:8px;background:rgba(9,18,27,.84);
+}
+.field label{display:block;font-size:8px;font-weight:800;letter-spacing:1px;margin-bottom:5px;color:#cfd5da}
+input{
+ width:100%;padding:8px 9px;border:1px solid rgba(255,255,255,.07);
+ border-radius:5px;background:#0e1a25;color:#fff;outline:none;font-size:10px;
+}
+input:focus{border-color:#e71b45}
+
+.questions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.q{
+ min-height:142px;padding:10px 11px;border-radius:8px;
+ background:linear-gradient(145deg,rgba(8,17,26,.94),rgba(3,9,15,.91));
+ border:1px solid rgba(255,255,255,.08);position:relative;
+}
+.q:before{content:"";position:absolute;left:0;top:0;width:2px;height:100%;background:#d8113b}
+.qhead{display:flex;gap:9px}
+.num{
+ width:24px;height:24px;min-width:24px;border-radius:50%;
+ display:grid;place-items:center;background:#d90d37;font-size:10px;font-weight:900;
+ box-shadow:0 2px 10px rgba(217,13,55,.25)
+}
+.qt{margin:0;font-size:9.5px;line-height:1.4;font-weight:800}
+.desc{margin:6px 0 0 33px;color:#8f9ba6;font-size:8px;line-height:1.35}
+.example{margin:6px 0 0 33px;padding:6px 7px;background:rgba(255,255,255,.035);border-radius:5px;color:#89949e;font-size:7.5px;line-height:1.35}
+.warn{margin:6px 0 0 33px;padding:6px 7px;background:rgba(120,8,30,.28);border:1px solid rgba(255,22,66,.25);border-radius:5px;color:#e9a3b0;font-size:7.5px;line-height:1.35}
+
+.controls{margin:8px 0 0 33px}
+.recordrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+button{font-family:inherit}
+.record,.stop,.choice{
+ border:0;border-radius:5px;padding:7px 9px;font-size:7.5px;font-weight:900;
+ cursor:pointer;text-transform:uppercase;
+}
+.record{background:linear-gradient(90deg,#c90a34,#ef1744);color:#fff}
+.record.rec{animation:pulse 1s infinite}
+.stop{display:none;background:#28323b;color:#fff}
+.choice{min-width:65px;background:#17212b;color:#fff;border:1px solid rgba(255,255,255,.1)}
+.choice.y.active{background:#146b43;border-color:#38dc8b}
+.choice.n.active{background:#751c31;border-color:#ff5372}
+.status{font-size:7.5px;color:#6e7a85;margin-top:5px}
+.status.ok{color:#58dc91}.status.err{color:#ff728d}
+audio{display:none;width:100%;height:24px;margin-top:5px}
+audio.show{display:block}
+
+.submitwrap{text-align:center;padding:10px 0 3px}
+.submit{
+ width:min(370px,80%);border:0;border-radius:5px;padding:10px;
+ background:linear-gradient(90deg,#d20938,#ef1645,#d20938);
+ color:#fff;font-size:9px;font-weight:1000;letter-spacing:1px;cursor:pointer;
+ box-shadow:0 7px 20px rgba(230,15,61,.22)
+}
+.submit:hover{filter:brightness(1.1)}
+
+.footer{
+ display:flex;justify-content:space-between;align-items:center;
+ padding:12px 5px 0;color:#a3a7ac;font-size:7px;letter-spacing:3px;text-transform:uppercase
+}
+.footer b{color:#ddd}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:10;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}.modalbox{width:min(480px,100%);padding:25px;border:1px solid #e71645;border-radius:12px;background:#0d151e;text-align:center;box-shadow:0 25px 80px #000}
+.modalbox button{margin-top:12px;background:#e71645;color:#fff;padding:9px 20px;border:0;border-radius:6px;font-weight:900}
+
+@keyframes pulse{50%{box-shadow:0 0 20px rgba(255,22,67,.65)}}
+
+@media(max-width:760px){
+ .page{width:96vw;padding-top:14px}.nav{display:none}
+ .hero-logo{font-size:50px}.hero h1{letter-spacing:2px}
+ .identity,.questions{grid-template-columns:1fr}
+ .q{min-height:0}.content{padding:9px}
+}
+</style>
+
+<style id="community-upgrade">
+.community-choice{margin:28px auto;max-width:1100px;padding:30px;border:1px solid rgba(255,255,255,.16);border-radius:26px;background:linear-gradient(135deg,rgba(7,12,20,.86),rgba(20,28,39,.68));box-shadow:0 24px 70px rgba(0,0,0,.35);backdrop-filter:blur(16px);color:#fff}
+.community-choice .section-kicker{font-size:12px;letter-spacing:.24em;font-weight:800;opacity:.68;margin-bottom:8px}
+.community-choice h2{margin:0 0 10px;font-size:clamp(24px,4vw,38px);letter-spacing:.02em}
+.community-intro{margin:0 0 22px;color:rgba(255,255,255,.76);line-height:1.55}
+.community-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.community-card{position:relative;display:flex;gap:18px;align-items:flex-start;padding:24px;border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.055)}
+.community-card:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 85% 10%,rgba(255,255,255,.12),transparent 42%)}
+.community-card.life{box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.community-card.flagstaff{box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.community-icon{font-size:36px;line-height:1}
+.community-label{font-size:11px;font-weight:800;letter-spacing:.18em;opacity:.62}
+.community-card h3{margin:5px 0 7px;font-size:23px}
+.community-card p{margin:0 0 18px;color:rgba(255,255,255,.72);line-height:1.45}
+.community-btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;text-decoration:none;color:#fff;font-weight:900;font-size:12px;letter-spacing:.05em;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);transition:.2s}
+.community-btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.18)}
+.community-note{display:flex;gap:10px;margin:18px 0 22px;padding:14px 16px;border-radius:14px;background:rgba(255,183,77,.09);border:1px solid rgba(255,183,77,.25);color:rgba(255,255,255,.82);line-height:1.45;font-size:13px}
+.selected-community{display:block}
+.selected-community span{display:block;font-size:12px;font-weight:900;letter-spacing:.12em;margin-bottom:8px;opacity:.75}
+.selected-community select{width:100%;padding:15px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:rgba(5,10,17,.82);color:#fff;font-size:15px;outline:none}
+@media(max-width:760px){.community-grid{grid-template-columns:1fr}.community-choice{padding:20px;border-radius:20px}.community-card{padding:20px}}
+</style>
+
+</head>
+<body>
+
+<section class="community-choice" id="communities">
+  <div class="section-kicker">VERIFICACIÓN DE COMUNIDAD</div>
+  <h2>¿PARA QUÉ COMUNIDAD DESEAS VERIFICARTE?</h2>
+  <p class="community-intro">Primero manda tu solicitud en el enlace correspondiente a la comunidad donde quieres verificarte. <strong>Son comunidades diferentes.</strong></p>
+
+  <div class="community-grid">
+    <article class="community-card life">
+      <div class="community-icon">🌵</div>
+      <div>
+        <div class="community-label">LIBERTY COUNTY</div>
+        <h3>LIFE IN ARIZONA</h3>
+        <p>Comunidad de <strong>Liberty County / ER:LC</strong>.</p>
+        <a class="community-btn" target="_blank" rel="noopener noreferrer"
+           href="https://www.roblox.com/communities/803299137/ARIZONA-STATE-ROLEPLAY-CIVILES-VERIFICADOS#!/about">
+          MANDAR SOLICITUD — LIFE IN ARIZONA ↗
+        </a>
+      </div>
+    </article>
+
+    <article class="community-card flagstaff">
+      <div class="community-icon">🚔</div>
+      <div>
+        <div class="community-label">RC</div>
+        <h3>FLAGSTAFF ARIZONA</h3>
+        <p>Comunidad de <strong>RC</strong>. Es independiente de Life in Arizona.</p>
+        <a class="community-btn" target="_blank" rel="noopener noreferrer"
+           href="https://www.roblox.com/communities/138803707/FLAGSTAFF-AZ-STATE-RP#!/about">
+          MANDAR SOLICITUD — FLAGSTAFF ARIZONA ↗
+        </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="community-note">
+    <span>⚠️</span>
+    <div><strong>IMPORTANTE:</strong> Life in Arizona y Flagstaff Arizona son comunidades distintas.
+    Selecciona y solicita únicamente en la comunidad correspondiente.</div>
+  </div>
+
+  <label class="selected-community">
+    <span>COMUNIDAD PARA TU VERIFICACIÓN</span>
+    <select id="communitySelect" name="community" required>
+      <option value="" selected disabled>Selecciona una comunidad…</option>
+      <option value="LIFE IN ARIZONA — LIBERTY COUNTY">🌵 LIFE IN ARIZONA — LIBERTY COUNTY</option>
+      <option value="FLAGSTAFF ARIZONA — RC">🚔 FLAGSTAFF ARIZONA — RC</option>
+    </select>
+  </label>
+</section>
+
+<div class="bg"></div><div class="glow"></div>
+
+<main class="page">
+<header class="header">
+ <div class="brand"><span class="cactus">🌵</span><div>LIFE IN ARIZONA<small>ROLEPLAY</small></div></div>
+ <div class="nav"><span>ROLEPLAY</span><span>REGLAS</span><span>COMUNIDAD</span></div>
+</header>
+
+<section class="hero">
+ <div class="hero-logo">LIFE IN<span class="red">ARIZONA</span></div>
+ <h1>Formulario de Verificación</h1>
+ <p>Únete a nuestra comunidad • Roleplay • Realismo</p>
+</section>
+
+<section class="shell">
+<div class="topline"></div>
+<div class="content">
+
+<div class="notice">
+ <div class="mic">🎙</div>
+ <div><strong>IMPORTANTE</strong><p>Las respuestas de la entrevista deberán realizarse mediante voz. Habla de manera natural y responde cada pregunta con tus propias palabras.</p></div>
+</div>
+
+<div class="identity">
+ <div class="field"><label>USUARIO DE ROBLOX</label><input id="roblox" placeholder="Ej. Player123"></div>
+ <div class="field"><label>USUARIO DE DISCORD</label><input id="discord" placeholder="Ej. Usuario123"></div>
+</div>
+
+<div class="questions">
+
+<div class="q"><div class="qhead"><div class="num">1</div><h3 class="qt">¿Cuál es el propósito o la razón por la cual te quieres verificar?</h3></div><div class="example"><b>Ejemplos:</b> “Quiero ser policía porque...”, “Quiero ser taxista porque...”, “Quiero trabajar como médico porque...”. Sé específico.</div><div class="controls"><div class="recordrow"><button class="record" onclick="start(1)">🎙 Grabar respuesta</button><button class="stop" id="stop1" onclick="stop(1)">⏹ Detener</button></div><div class="status" id="st1">No se ha grabado ninguna respuesta.</div><audio id="a1" controls></audio></div></div>
+
+<div class="q"><div class="qhead"><div class="num">2</div><h3 class="qt">¿Qué edad tienes realmente?</h3></div><div class="warn">⚠️ Proporciona tu edad real. Si durante la revisión se percibe una voz evidentemente forzada o información inconsistente, la solicitud podrá ser rechazada o enviada a revisión manual.</div><div class="controls"><div class="recordrow"><button class="record" onclick="start(2)">🎙 Grabar respuesta</button><button class="stop" id="stop2" onclick="stop(2)">⏹ Detener</button></div><div class="status" id="st2">No se ha grabado ninguna respuesta.</div><audio id="a2" controls></audio></div></div>
+
+<div class="q"><div class="qhead"><div class="num">3</div><h3 class="qt">Si entras al servidor y quieres sacar un vehículo, ¿cómo lo harías?</h3></div><div class="controls"><div class="recordrow"><button class="record" onclick="start(3)">🎙 Grabar respuesta</button><button class="stop" id="stop3" onclick="stop(3)">⏹ Detener</button></div><div class="status" id="st3">No se ha grabado ninguna respuesta.</div><audio id="a3" controls></audio></div></div>
+
+<div class="q"><div class="qhead"><div class="num">4</div><h3 class="qt">¿Tienes chat de voz en Roblox?</h3></div><div class="controls"><div class="recordrow"><button class="choice y" onclick="choose(4,'Sí',this)">✓ Sí</button><button class="choice n" onclick="choose(4,'No',this)">✕ No</button></div><div class="status" id="st4">No has seleccionado una respuesta.</div></div></div>
+
+<div class="q"><div class="qhead"><div class="num">5</div><h3 class="qt">¿Tu chat de voz pertenece al grupo de edad de 18 años o más?</h3></div><div class="controls"><div class="recordrow"><button class="choice y" onclick="choose(5,'Sí',this)">✓ Sí</button><button class="choice n" onclick="choose(5,'No',this)">✕ No</button></div><div class="status" id="st5">No has seleccionado una respuesta.</div></div></div>
+
+<div class="q"><div class="qhead"><div class="num">6</div><h3 class="qt">Si te aburres estando dentro del servidor haciendo Roleplay, ¿qué harías para quitarte el aburrimiento sin salirte del Roleplay?</h3></div><div class="controls"><div class="recordrow"><button class="record" onclick="start(6)">🎙 Grabar respuesta</button><button class="stop" id="stop6" onclick="stop(6)">⏹ Detener</button></div><div class="status" id="st6">No se ha grabado ninguna respuesta.</div><audio id="a6" controls></audio></div></div>
+
+<div class="q"><div class="qhead"><div class="num">7</div><h3 class="qt">¿Cómo realizarías una persecución para que no se vea forzada, exagerada o irrealista?</h3></div><div class="controls"><div class="recordrow"><button class="record" onclick="start(7)">🎙 Grabar respuesta</button><button class="stop" id="stop7" onclick="stop(7)">⏹ Detener</button></div><div class="status" id="st7">No se ha grabado ninguna respuesta.</div><audio id="a7" controls></audio></div></div>
+
+<div class="q"><div class="qhead"><div class="num">8</div><h3 class="qt">¿Estás de acuerdo con que estás verificándote para un servidor de Roleplay estilo vida real, donde las situaciones deben mantenerse lo más realistas posible? ¿Por qué?</h3></div><div class="controls"><div class="recordrow"><button class="choice y" onclick="choose(8,'Sí',this)">✓ Sí</button><button class="choice n" onclick="choose(8,'No',this)">✕ No</button></div><div class="recordrow" style="margin-top:6px"><button class="record" onclick="start(8)">🎙 Grabar explicación</button><button class="stop" id="stop8" onclick="stop(8)">⏹ Detener</button></div><div class="status" id="st8">Selecciona Sí/No y explica mediante voz.</div><audio id="a8" controls></audio></div></div>
+
+<div class="q"><div class="qhead"><div class="num">9</div><h3 class="qt">Si un moderador te detiene y te hace preguntas sobre una situación, ¿cuál sería tu solución?</h3></div><div class="desc">Explica qué harías dependiendo de la razón por la cual te detuvo. ¿Te enojarías, lo tomarías personal, explicarías lo sucedido o abandonarías el servidor?</div><div class="controls"><div class="recordrow"><button class="record" onclick="start(9)">🎙 Grabar respuesta</button><button class="stop" id="stop9" onclick="stop(9)">⏹ Detener</button></div><div class="status" id="st9">No se ha grabado ninguna respuesta.</div><audio id="a9" controls></audio></div></div>
+
+<div class="q"><div class="qhead"><div class="num">10</div><h3 class="qt">¿Eres una persona que se toma las cosas en serio durante el Roleplay?</h3></div><div class="desc">Si alguien te dice algo dentro del Roleplay, ¿te lo tomarías personalmente o continuarías con el Roleplay?</div><div class="controls"><div class="recordrow"><button class="record" onclick="start(10)">🎙 Grabar respuesta</button><button class="stop" id="stop10" onclick="stop(10)">⏹ Detener</button></div><div class="status" id="st10">No se ha grabado ninguna respuesta.</div><audio id="a10" controls></audio></div></div>
+
+<div class="q" style="grid-column:1/-1"><div class="qhead"><div class="num">11</div><h3 class="qt">Si tienes que reportar a alguien, ¿cómo realizarías el reporte?</h3></div><div class="controls"><div class="recordrow"><button class="record" onclick="start(11)">🎙 Grabar respuesta</button><button class="stop" id="stop11" onclick="stop(11)">⏹ Detener</button></div><div class="status" id="st11">No se ha grabado ninguna respuesta.</div><audio id="a11" controls></audio></div></div>
+
+</div>
+
+<div class="submitwrap"><button type="button" class="submit" id="submitButton" onclick="submitForm()">➤ &nbsp; ENVIAR VERIFICACIÓN</button></div>
+</div>
+</section>
+
+<footer class="footer"><div>🌵 LIFE IN ARIZONA<br><b>ROLEPLAY</b></div><div>LIFE IN ARIZONA</div><div>Más que un servidor...<br><b>Una comunidad</b></div></footer>
+</main>
+
+<div class="modal" id="modal"><div class="modalbox"><h2>🔰 Verificación completada</h2><p>Tu solicitud está lista. Al enviarla, tus respuestas de voz serán entregadas al equipo de verificaciones.</p><button onclick="modal.classList.remove('show')">ENTENDIDO</button></div></div>
+
+<script>
+const answers={}, recordings={}, recs={}, streams={}, chunks={};
+
+function choose(q,v,b){
+ answers[q]=v;
+ b.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');
+ setStatus(q,'✓ Respuesta seleccionada: '+v);
+}
+function setStatus(q,t,err=false){
+ const e=document.getElementById('st'+q);
+ e.textContent=t;e.className='status '+(err?'err':'');
+}
+async function start(q){
+ if(recs[q])return;
+ try{
+  const s=await navigator.mediaDevices.getUserMedia({audio:true});
+  const mime=MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?'audio/webm;codecs=opus':'audio/webm';
+  const r=new MediaRecorder(s,{mimeType:mime}), c=[];
+  streams[q]=s;chunks[q]=c;recs[q]=r;
+  r.ondataavailable=e=>{if(e.data.size)c.push(e.data)};
+  r.onstop=()=>{
+   const blob=new Blob(c,{type:mime});recordings[q]=blob;
+   const a=document.getElementById('a'+q);a.src=URL.createObjectURL(blob);a.classList.add('show');
+   s.getTracks().forEach(t=>t.stop());delete recs[q];
+   document.getElementById('stop'+q).style.display='none';
+   document.querySelectorAll('.record').forEach(b=>{if(b.getAttribute('onclick')===`start(${q})`)b.classList.remove('rec')});
+   setStatus(q,'✓ Respuesta grabada. Puedes escucharla abajo.');
+  };
+  r.start();
+  document.getElementById('stop'+q).style.display='inline-block';
+  document.querySelectorAll('.record').forEach(b=>{if(b.getAttribute('onclick')===`start(${q})`)b.classList.add('rec')});
+  setStatus(q,'🔴 Grabando... pulsa DETENER cuando termines.');
+  setTimeout(()=>{if(recs[q]?.state==='recording')stop(q)},60000);
+ }catch(e){setStatus(q,'No se pudo acceder al micrófono. Permite el micrófono en Firefox.',true)}
+}
+function stop(q){if(recs[q]?.state==='recording')recs[q].stop()}
+async function submitForm(){
+  const community=document.getElementById('communitySelect').value;
+  const roblox=document.getElementById('roblox').value.trim();
+  const discord=document.getElementById('discord').value.trim();
+  if(!community){alert('Selecciona para qué comunidad deseas verificarte.');return}
+  if(!roblox){alert('Escribe tu usuario de Roblox.');document.getElementById('roblox').focus();return}
+  if(!discord){alert('Escribe tu usuario de Discord.');document.getElementById('discord').focus();return}
+  for(const q of [1,2,3,6,7,9,10,11])if(!recordings[q]){alert('Falta la respuesta de voz de la pregunta '+q+'.');return}
+  if(!answers[4]||!answers[5]||!answers[8]){alert('Completa las respuestas de las preguntas 4, 5 y 8.');return}
+  if(!recordings[8]){alert('Falta la explicación de voz de la pregunta 8.');return}
+
+  const button=document.getElementById('submitButton');
+  button.disabled=true;
+  button.textContent='⏳ ENVIANDO VERIFICACIÓN...';
+  try{
+    const data=new FormData();
+    data.append('community',community);
+    data.append('roblox',roblox);
+    data.append('discord',discord);
+    data.append('q4',answers[4]);
+    data.append('q5',answers[5]);
+    data.append('q8_choice',answers[8]);
+    for(const q of [1,2,3,6,7,8,9,10,11]){
+      const blob=recordings[q];
+      data.append('q'+q,blob,'q'+q+'.webm');
+    }
+    const response=await fetch('/api/submit',{method:'POST',body:data});
+    const result=await response.json().catch(()=>({ok:false}));
+    if(!response.ok||!result.ok)throw new Error(result.error||'No se pudo enviar.');
+    document.querySelector('#modal h2').textContent='✅ Verificación enviada';
+    document.querySelector('#modal p').textContent='Tu solicitud fue enviada correctamente al equipo de verificaciones. Puedes cerrar esta ventana.';
+    modal.classList.add('show');
+  }catch(error){
+    alert(error.message||'No se pudo enviar la verificación. Intenta nuevamente.');
+  }finally{
+    button.disabled=false;
+    button.innerHTML='➤ &nbsp; ENVIAR VERIFICACIÓN';
+  }
+}
+
+</script>
+
+<script id="community-validation">
+</script>
+
+</body>
+</html>
